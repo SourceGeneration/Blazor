@@ -23,7 +23,7 @@ public partial class FluxComponentParameterValueSetSourceGenerator : IIncrementa
                     || classDeclaration.TypeParameterList != null)
                     return false;
 
-                return classDeclaration.IsDerivedFrom("FluxComponentBase", "FluxComponent", "FluxComponent`1");
+                return classDeclaration.IsDerivedFrom("FluxComponentBase", "FluxComponent");
             },
             transform: static (context, token) =>
             {
