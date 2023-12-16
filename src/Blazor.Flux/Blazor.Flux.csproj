@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>12</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>true</ImplicitUsings>
+
+		<Version>1.0.0-beta1.231216.1</Version>
+
+		<Authors>SourceGeneration</Authors>
+		<RepositoryUrl>https://github.com/SourceGeneration/Blazor.Flux</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/SourceGeneration/Blazor.Flux</PackageProjectUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>./../../../nupkg</PackageOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\ChangeTracking\src\Sg.ChangeTracking\Sg.ChangeTracking.csproj" />
+		<ProjectReference Include="..\..\..\ActionDispatcher\src\Sg.ActionDispatcher\Sg.ActionDispatcher.csproj" />
+		<ProjectReference Include="..\..\..\States\src\Sg.States\Sg.States.csproj" />
+		<ProjectReference Include="..\Blazor.Flux.SourceGenerator\Blazor.Flux.SourceGenerator.csproj" />
+	</ItemGroup>
+
+</Project>
