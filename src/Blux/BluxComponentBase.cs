@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Sg.ActionDispatcher;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
-public abstract class FluxComponentBase : ComponentBase, IHandleEvent, IAsyncDisposable
+public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDisposable
 {
     private bool _isDisposed;
     private bool _isInitialized;

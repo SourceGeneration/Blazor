@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Blazor.Flux.SourceGenerators;
+namespace Sg.Blux.SourceGenerator;
 
 [Generator(LanguageNames.CSharp)]
-public partial class FluxComponentParameterValueSetSourceGenerator : IIncrementalGenerator
+public partial class BluxComponentParameterValueSetSourceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -23,7 +23,7 @@ public partial class FluxComponentParameterValueSetSourceGenerator : IIncrementa
                     || classDeclaration.TypeParameterList != null)
                     return false;
 
-                return classDeclaration.IsDerivedFrom("FluxComponentBase", "FluxComponent");
+                return classDeclaration.IsDerivedFrom("BluxComponentBase", "BluxComponent");
             },
             transform: static (context, token) =>
             {

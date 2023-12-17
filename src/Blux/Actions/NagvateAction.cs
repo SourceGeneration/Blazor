@@ -1,4 +1,4 @@
-﻿namespace Blazor.Flux;
+﻿namespace Sg.Blux;
 
 public class NavigateAction
 {

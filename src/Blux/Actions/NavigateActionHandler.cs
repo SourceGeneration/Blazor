@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Sg.ActionDispatcher;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
-public class DefaultActionHandler(NavigationManager navigationManager)
+public class NavigateActionHandler(NavigationManager navigationManager)
 {
     [ActionHandler]
     public void HandleNavigate(NavigateAction action)

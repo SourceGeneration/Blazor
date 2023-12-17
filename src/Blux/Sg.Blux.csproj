@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>true</ImplicitUsings>
 
-		<Version>1.0.0-beta1.231216.1</Version>
+		<Version>1.0.0-beta1.231217.3</Version>
 
 		<Authors>SourceGeneration</Authors>
 		<RepositoryUrl>https://github.com/SourceGeneration/Blazor.Flux</RepositoryUrl>
@@ -14,16 +14,23 @@
 		<PackageProjectUrl>https://github.com/SourceGeneration/Blazor.Flux</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>./../../../nupkg</PackageOutputPath>
+		<PackageIcon>sg.png</PackageIcon>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include=".\..\..\sg.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
+		<PackageReference Include="Sg.ActionDispatcher" Version="1.0.0-beta1.231217.3" />
+		<PackageReference Include="Sg.States" Version="1.0.0-beta1.231217.1" />
 	</ItemGroup>
+
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\ChangeTracking\src\Sg.ChangeTracking\Sg.ChangeTracking.csproj" />
-		<ProjectReference Include="..\..\..\ActionDispatcher\src\Sg.ActionDispatcher\Sg.ActionDispatcher.csproj" />
-		<ProjectReference Include="..\..\..\States\src\Sg.States\Sg.States.csproj" />
-		<ProjectReference Include="..\Blazor.Flux.SourceGenerator\Blazor.Flux.SourceGenerator.csproj" />
+	  <ProjectReference Include="..\Blux.SourceGenerator\Sg.Blux.SourceGenerator.csproj" />
 	</ItemGroup>
 
 </Project>

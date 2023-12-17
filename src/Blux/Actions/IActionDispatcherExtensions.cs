@@ -1,6 +1,6 @@
 ﻿using Sg.ActionDispatcher;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
 public static class IActionDispatcherExtensions
 {

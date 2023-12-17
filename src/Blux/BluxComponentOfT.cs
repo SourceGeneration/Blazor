@@ -1,9 +1,9 @@
 ﻿//using Microsoft.AspNetCore.Components;
 //using Sg.States;
 
-//namespace Blazor.Flux;
+//namespace Sg.Blux;
 
-//public abstract class FluxComponent<TComponent> : FluxComponentBase where TComponent : ComponentBase
+//public abstract class BluxComponent<TComponent> : BluxComponentBase where TComponent : ComponentBase
 //{
 //    public static class Binding<TState>
 //    {

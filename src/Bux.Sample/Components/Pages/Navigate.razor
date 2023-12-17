@@ -1,0 +1,14 @@
+﻿@inherits BluxComponentBase
+@page "/navigate"
+
+<h3>Navigate</h3>
+
+<button @onclick="NavigateToHome">Navigate To Home</button>
+
+@code {
+
+    private void NavigateToHome()
+    {
+        Navigate("/");
+    }
+}

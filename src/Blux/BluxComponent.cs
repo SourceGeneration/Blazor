@@ -3,9 +3,9 @@ using Sg.States;
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
-public abstract class FluxComponent : FluxComponentBase, IHandleEvent
+public abstract class BluxComponent : BluxComponentBase, IHandleEvent
 {
     private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _states = new();
 

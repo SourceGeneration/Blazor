@@ -4,18 +4,19 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sg.ActionDispatcher;
 using Sg.States;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
-public static class FluxServiceCollectionExtensions
+public static class BluxServiceCollectionExtensions
 {
-    public static IServiceCollection AddFlux(this IServiceCollection services)
+    public static IServiceCollection AddBlux(this IServiceCollection services)
     {
+        services.AddScoped<NavigateActionHandler>();
         services.AddActionDispatcher();
         StateRegister.Register(services);
         return services;
     }
 
-    public static IServiceCollection UseServiceProviderComponentActivator(this IServiceCollection services)
+    public static IServiceCollection AddServiceProviderComponentActivator(this IServiceCollection services)
     {
         return services.Replace(ServiceDescriptor.Transient<IComponentActivator, ServiceProviderComponentActivator>());
     }

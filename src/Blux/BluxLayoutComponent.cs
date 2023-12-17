@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Flux;
+namespace Sg.Blux;
 
-public abstract class FluxLayoutComponent : FluxComponent
+public abstract class BluxLayoutComponent : BluxComponent
 {
     [Parameter] public RenderFragment? Body { get; set; }
 }
