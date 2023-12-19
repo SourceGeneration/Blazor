@@ -1,4 +1,4 @@
-﻿using Sg.ActionDispatcher;
+﻿using SourceGeneration.ActionDispatcher;
 
 namespace Blazor.Flux.Sample.Actions
 {

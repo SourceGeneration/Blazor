@@ -1,6 +1,6 @@
-﻿using Sg.ActionDispatcher;
+﻿using SourceGeneration.ActionDispatcher;
 
-namespace Sg.Blux;
+namespace Blux;
 
 public static class IActionDispatcherExtensions
 {

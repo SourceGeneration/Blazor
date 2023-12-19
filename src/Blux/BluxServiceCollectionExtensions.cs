@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Sg.ActionDispatcher;
-using Sg.States;
+using SourceGeneration.ActionDispatcher;
+using SourceGeneration.States;
 
-namespace Sg.Blux;
+namespace Blux;
 
 public static class BluxServiceCollectionExtensions
 {

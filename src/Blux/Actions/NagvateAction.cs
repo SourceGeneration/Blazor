@@ -1,4 +1,4 @@
-﻿namespace Sg.Blux;
+﻿namespace Blux;
 
 public class NavigateAction
 {

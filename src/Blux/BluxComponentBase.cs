@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Sg.ActionDispatcher;
+using SourceGeneration.ActionDispatcher;
 
-namespace Sg.Blux;
+namespace Blux;
 
 public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDisposable
 {

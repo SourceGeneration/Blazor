@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Sg.Blux;
+namespace Blux;
 
 public class ServiceProviderComponentActivator(IServiceProvider serviceProvider) : IComponentActivator
 {

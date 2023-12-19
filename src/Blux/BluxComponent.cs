@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Sg.States;
+using SourceGeneration.States;
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Sg.Blux;
+namespace Blux;
 
 public abstract class BluxComponent : BluxComponentBase, IHandleEvent
 {

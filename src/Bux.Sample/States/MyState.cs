@@ -1,4 +1,4 @@
-﻿using Sg.States;
+﻿using SourceGeneration.States;
 
 namespace Blazor.Flux.Sample.States
 {

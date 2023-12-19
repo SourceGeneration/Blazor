@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Sg.Blux.SourceGenerator;
+namespace Blux.SourceGenerator;
 
 [Generator(LanguageNames.CSharp)]
 public partial class BluxComponentParameterValueSetSourceGenerator : IIncrementalGenerator
@@ -99,7 +99,8 @@ public partial class BluxComponentParameterValueSetSourceGenerator : IIncrementa
 
             if (property.HasAttribute("Parameter") ||
                 property.HasAttribute("CascadingParameter") ||
-                property.HasAttribute("SupplyParameterFromQuery"))
+                property.HasAttribute("SupplyParameterFromQuery") ||
+                property.HasAttribute("SupplyParameterFromForm"))
             {
                 parameters.Add(property.Identifier.Text, property.Type.GetTypeName());
             }
