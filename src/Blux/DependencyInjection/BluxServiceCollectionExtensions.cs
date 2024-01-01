@@ -10,7 +10,6 @@ public static class BluxServiceCollectionExtensions
 {
     public static IServiceCollection AddBlux(this IServiceCollection services)
     {
-        services.AddScoped<NavigateActionHandler>();
         services.AddActionDispatcher();
         StateRegister.Register(services);
         return services;

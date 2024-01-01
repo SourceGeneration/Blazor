@@ -3,10 +3,15 @@ using SourceGeneration.ActionDispatcher;
 
 namespace Blux;
 
-public class NavigateActionHandler(NavigationManager navigationManager)
+public class NavigateAction
 {
+    public string? Uri { get; init; }
+    public IReadOnlyDictionary<string, object?>? QueryParameters { get; init; }
+    public bool? ForceLoad { get; init; }
+    public bool? Replace { get; init; }
+
     [ActionHandler]
-    public void HandleNavigate(NavigateAction action)
+    internal static void HandleNavigate(NavigateAction action, NavigationManager navigationManager)
     {
         var uri = action.Uri ?? navigationManager.Uri;
         if (action.QueryParameters != null)
@@ -16,4 +21,5 @@ public class NavigateActionHandler(NavigationManager navigationManager)
 
         navigationManager.NavigateTo(uri, action.ForceLoad.GetValueOrDefault(false), action.Replace.GetValueOrDefault(false));
     }
+
 }

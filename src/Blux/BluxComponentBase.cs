@@ -83,6 +83,46 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
     protected virtual void OnDispose() { }
     protected virtual ValueTask OnDisposeAsync() => ValueTask.CompletedTask;
 
-    Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg) => callback.InvokeAsync(arg);
+    protected virtual bool ShouldRenderOnEventHandled() => false;
+
+    Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg)
+    {
+        ShouldRender();
+        if (ShouldRenderOnEventHandled())
+        {
+            return this.HandleEventAsync(callback, arg);
+        }
+
+        return callback.InvokeAsync(arg);
+    }
+
+    private Task HandleEventAsync(EventCallbackWorkItem callback, object? arg)
+    {
+        var task = callback.InvokeAsync(arg);
+        var shouldAwaitTask = task.Status != TaskStatus.RanToCompletion &&
+            task.Status != TaskStatus.Canceled;
+        StateHasChanged();
+
+        return shouldAwaitTask ? CallStateHasChangedOnAsyncCompletion(task) : Task.CompletedTask;
+    }
+
+    private async Task CallStateHasChangedOnAsyncCompletion(Task task)
+    {
+        try
+        {
+            await task;
+        }
+        catch
+        {
+            if (task.IsCanceled)
+            {
+                return;
+            }
+
+            throw;
+        }
+
+        StateHasChanged();
+    }
 }
 
