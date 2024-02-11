@@ -5,6 +5,6 @@ namespace Blazor.Flux.Sample.States
     [State]
     public class MyState
     {
-        public int Count { get; set; }
+        public virtual int Count { get; set; }
     }
 }

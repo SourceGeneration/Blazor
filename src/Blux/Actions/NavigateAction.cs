@@ -9,9 +9,13 @@ public class NavigateAction
     public IReadOnlyDictionary<string, object?>? QueryParameters { get; init; }
     public bool? ForceLoad { get; init; }
     public bool? Replace { get; init; }
+}
 
+//Must be Scoped
+internal class NavigateActionHandler(NavigationManager navigationManager)
+{
     [ActionHandler]
-    internal static void HandleNavigate(NavigateAction action, NavigationManager navigationManager)
+    public void HandleNavigate(NavigateAction action)
     {
         var uri = action.Uri ?? navigationManager.Uri;
         if (action.QueryParameters != null)
@@ -21,5 +25,4 @@ public class NavigateAction
 
         navigationManager.NavigateTo(uri, action.ForceLoad.GetValueOrDefault(false), action.Replace.GetValueOrDefault(false));
     }
-
 }

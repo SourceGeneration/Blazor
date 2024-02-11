@@ -83,7 +83,7 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
     protected virtual void OnDispose() { }
     protected virtual ValueTask OnDisposeAsync() => ValueTask.CompletedTask;
 
-    protected virtual bool ShouldRenderOnEventHandled() => false;
+    protected virtual bool ShouldRenderOnEventHandled() => true;
 
     Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg)
     {

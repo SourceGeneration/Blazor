@@ -14,7 +14,7 @@ public static class IActionDispatcherExtensions
         });
     }
 
-    public static void Navigate(this IActionDispatcher dispatcher, string? uri, Dictionary<string, object?>? queryParameters = null, bool? forceLoad = null, bool? replace = null)
+    public static void Navigate(this IActionDispatcher dispatcher, string? uri, Dictionary<string, object?>? queryParameters, bool? forceLoad = null, bool? replace = null)
     {
         dispatcher.Dispatch(new NavigateAction
         {

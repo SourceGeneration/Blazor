@@ -6,13 +6,13 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>true</ImplicitUsings>
 
-		<Version>1.0.0-beta1.240101.1</Version>
+		<Version>1.0.0-beta1.240211.10</Version>
 
 		<Authors>SourceGeneration</Authors>
 		<Description>Blazor flux framework</Description>
-		<RepositoryUrl>https://github.com/SourceGeneration/Blazor.Flux</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SourceGeneration/Blux</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/SourceGeneration/Blazor.Flux</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/SourceGeneration/Blux</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>./../../../nupkg</PackageOutputPath>
 		<PackageIcon>sg.png</PackageIcon>
@@ -27,12 +27,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
-		<PackageReference Include="SourceGeneration.ActionDispatcher" Version="1.0.0-beta1.231227.2" />
-		<PackageReference Include="SourceGeneration.States" Version="1.0.0-beta1.240101.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Blux.SourceGenerator\Blux.SourceGenerator.csproj" />
+		<PackageReference Include="SourceGeneration.ActionDispatcher" Version="1.0.0-beta1.240211.8" />
+		<PackageReference Include="SourceGeneration.States" Version="1.0.0-beta1.240211.7" />
 	</ItemGroup>
 
 </Project>

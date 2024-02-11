@@ -1,5 +1,9 @@
 ﻿@page "/counter"
-@inherits BluxComponentBase
+@using Blazor.Flux.Sample.Actions
+@using Blazor.Flux.Sample.States
+@using SourceGeneration.States
+@inherits BluxComponent
+@inject IStore<MyState> State
 
 <PageTitle>Counter</PageTitle>
 
@@ -10,12 +14,17 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    protected override bool ChangeStateOnEventHandled => true;
 
     private int currentCount = 0;
 
+    protected override void OnStateBinding()
+    {
+        State.Bind(x => x.Count, x => currentCount = x);
+    }
+
     private void IncrementCount()
     {
-        currentCount++;
+        DispatchAction<CountAction>();
+        // State.Update(x => x.Count++);
     }
 }
