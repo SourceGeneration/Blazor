@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>true</ImplicitUsings>
 
-		<Version>1.0.0-beta1.240211.10</Version>
+		<Version>1.0.0-beta1.240215.1</Version>
 
 		<Authors>SourceGeneration</Authors>
 		<Description>Blazor flux framework</Description>
