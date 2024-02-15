@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Blux.SourceGenerator;
+namespace SourceGeneration.Blux.SourceGenerator;
 
 [Generator(LanguageNames.CSharp)]
 public partial class BluxComponentParameterValueSetSourceGenerator : IIncrementalGenerator

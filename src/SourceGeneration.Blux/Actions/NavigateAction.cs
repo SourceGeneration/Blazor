@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SourceGeneration.ActionDispatcher;
 
-namespace Blux;
+namespace SourceGeneration.Blux;
 
 public class NavigateAction
 {

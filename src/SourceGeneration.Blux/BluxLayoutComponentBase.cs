@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blux;
+namespace SourceGeneration.Blux;
 
 public abstract class BluxLayoutComponentBase : BluxComponentBase
 {

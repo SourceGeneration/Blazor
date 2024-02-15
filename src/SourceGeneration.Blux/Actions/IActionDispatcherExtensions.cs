@@ -1,6 +1,6 @@
 ﻿using SourceGeneration.ActionDispatcher;
 
-namespace Blux;
+namespace SourceGeneration.Blux;
 
 public static class IActionDispatcherExtensions
 {

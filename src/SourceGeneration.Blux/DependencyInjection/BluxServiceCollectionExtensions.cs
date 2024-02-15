@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SourceGeneration.ActionDispatcher;
 using SourceGeneration.States;
 
-namespace Blux;
+namespace SourceGeneration.Blux;
 
 public static class BluxServiceCollectionExtensions
 {
