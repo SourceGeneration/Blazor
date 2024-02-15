@@ -23,7 +23,7 @@ public partial class BluxComponentParameterValueSetSourceGenerator : IIncrementa
                     || classDeclaration.TypeParameterList != null)
                     return false;
 
-                return classDeclaration.IsDerivedFrom("BluxComponentBase", "BluxComponent");
+                return classDeclaration.IsDerivedFrom("BluxComponentBase");
             },
             transform: static (context, token) =>
             {
