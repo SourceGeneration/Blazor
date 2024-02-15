@@ -16,9 +16,9 @@
 		<Version>1.0.0-beta1.240211.6</Version>
 		<Authors>SourceGeneration</Authors>
 		<Description>Blazor flux framework</Description>
-		<RepositoryUrl>https://github.com/SourceGeneration/Blazor.Flux</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SourceGeneration/Blux</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/SourceGeneration/Blazor.Flux</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/SourceGeneration/Blux</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>./../../../nupkg</PackageOutputPath>
 		<PackageIcon>sg.png</PackageIcon>
@@ -36,7 +36,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SourceGeneration.Utilities" Version="1.0.0-beta1.240211.6" PrivateAssets="true" />
+		<PackageReference Include="SourceGeneration.Utilities" Version="1.0.0-beta1.240213.1" PrivateAssets="true" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

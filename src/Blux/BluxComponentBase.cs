@@ -1,10 +1,27 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SourceGeneration.ActionDispatcher;
+using SourceGeneration.States;
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Blux;
 
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)]
 public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDisposable
 {
+    private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _states = new();
+
+    private static PropertyInfo[] Resovle([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type componentType)
+    {
+        return _states.GetOrAdd(componentType,
+                static ([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] type) => type
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(x => x.GetCustomAttribute<InjectAttribute>() != null && x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(IState<>))
+                    .ToArray());
+    }
+
+    private readonly List<IState> _stateInstances = [];
     private bool _isDisposed;
     private bool _isInitialized;
 
@@ -51,7 +68,28 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
         {
             _isInitialized = true;
 
-            BindingState();
+            OnStateBinding();
+
+            var properites = Resovle(GetType());
+            foreach (var property in properites)
+            {
+                var state = (IState?)property.GetValue(this);
+                if (state != null)
+                {
+                    _stateInstances.Add(state);
+                    state.SubscribeBindingChanged(() => InvokeAsync(StateHasChanged));
+                }
+            }
+        }
+    }
+
+    protected virtual void OnStateBinding() { }
+
+    protected virtual void DisposeState()
+    {
+        foreach (var state in _stateInstances)
+        {
+            try { state.Dispose(); } catch { }
         }
     }
 
@@ -69,17 +107,11 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
                 Subscriber.Unsubscribe(this);
                 DisposeState();
                 OnDispose();
-                // TODO: 释放托管状态(托管对象)
             }
-
-            // TODO: 释放未托管的资源(未托管的对象)并重写终结器
-            // TODO: 将大型字段设置为 null
             _isDisposed = true;
         }
     }
 
-    protected virtual void DisposeState() { }
-    protected virtual void BindingState() { }
     protected virtual void OnDispose() { }
     protected virtual ValueTask OnDisposeAsync() => ValueTask.CompletedTask;
 
@@ -101,6 +133,7 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
         var task = callback.InvokeAsync(arg);
         var shouldAwaitTask = task.Status != TaskStatus.RanToCompletion &&
             task.Status != TaskStatus.Canceled;
+
         StateHasChanged();
 
         return shouldAwaitTask ? CallStateHasChangedOnAsyncCompletion(task) : Task.CompletedTask;
