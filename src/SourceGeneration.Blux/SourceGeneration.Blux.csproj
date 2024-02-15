@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>true</ImplicitUsings>
 
-		<Version>1.0.0-beta1.240215.1</Version>
+		<Version>1.0.0-beta1.240215.2</Version>
 
 		<Authors>SourceGeneration</Authors>
 		<Description>Blazor flux framework</Description>
@@ -28,7 +28,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
 		<PackageReference Include="SourceGeneration.ActionDispatcher" Version="1.0.0-beta1.240215.1" />
-		<PackageReference Include="SourceGeneration.States" Version="1.0.0-beta1.240211.7" />
+		<PackageReference Include="SourceGeneration.States" Version="1.0.0-beta1.240215.1" />
 	</ItemGroup>
 
 </Project>
