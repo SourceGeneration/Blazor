@@ -1,9 +1,6 @@
 ﻿@page "/counter"
-@using Blazor.Flux.Sample.Actions
-@using Blazor.Flux.Sample.States
-@using SourceGeneration.States
-@inherits BluxComponent
-@inject IStore<MyState> State
+@inherits BluxComponentBase
+@inject IState<MyState> State
 
 <PageTitle>Counter</PageTitle>
 
@@ -25,6 +22,5 @@
     private void IncrementCount()
     {
         DispatchAction<CountAction>();
-        // State.Update(x => x.Count++);
     }
 }

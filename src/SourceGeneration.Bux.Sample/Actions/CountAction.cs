@@ -1,19 +1,18 @@
-﻿using Blazor.Flux.Sample.States;
-using SourceGeneration.ActionDispatcher;
+﻿using SourceGeneration.ActionDispatcher;
+using SourceGeneration.Blux.Sample.States;
 using SourceGeneration.States;
 
-namespace Blazor.Flux.Sample.Actions
-{
-    public class CountAction
-    {
-    }
+namespace SourceGeneration.Blux.Sample.Actions;
 
-    public class DefaultActionHandler
+public class CountAction
+{
+}
+
+public class DefaultActionHandler
+{
+    [ActionHandler]
+    public static void Handle(CountAction _,IStore<MyState> state)
     {
-        [ActionHandler]
-        public static void Handle(CountAction _,IStore<MyState> state)
-        {
-            state.Update(x => x.Count++);
-        }
+        state.Update(x => x.Count++);
     }
 }

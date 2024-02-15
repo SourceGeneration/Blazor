@@ -1,4 +1,4 @@
-using Blux;
+using SourceGeneration.Blux;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<Blux.Sample.Components.App>()
+app.MapRazorComponents<SourceGeneration.Blux.Sample.Components.App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();

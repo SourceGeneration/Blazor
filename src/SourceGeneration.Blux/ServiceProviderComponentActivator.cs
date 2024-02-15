@@ -8,10 +8,7 @@ public class ServiceProviderComponentActivator(IServiceProvider serviceProvider)
     {
         var instance = serviceProvider.GetService(componentType);
 
-        if (instance == null)
-        {
-            instance = Activator.CreateInstance(componentType);
-        }
+        instance ??= Activator.CreateInstance(componentType);
 
         if (instance is not IComponent component)
         {
