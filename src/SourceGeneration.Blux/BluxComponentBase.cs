@@ -11,8 +11,9 @@ namespace SourceGeneration.Blux;
 public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDisposable
 {
     private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _states = new();
+    private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _stores = new();
 
-    private static PropertyInfo[] Resovle([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type componentType)
+    private static PropertyInfo[] ResovleStateProperties([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type componentType)
     {
         return _states.GetOrAdd(componentType,
                 static ([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] type) => type
@@ -21,7 +22,17 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
                     .ToArray());
     }
 
+    private static PropertyInfo[] ResovleStoreProperties([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] Type componentType)
+    {
+        return _stores.GetOrAdd(componentType,
+                static ([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] type) => type
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(x => x.GetCustomAttribute<InjectAttribute>() != null && x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(IStore<>))
+                    .ToArray());
+    }
+
     private readonly List<IState> _stateInstances = [];
+    private readonly List<IDisposable> _storeDisposables = [];
     private bool _isDisposed;
     private bool _isInitialized;
 
@@ -70,14 +81,24 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
 
             OnStateBinding();
 
-            var properites = Resovle(GetType());
-            foreach (var property in properites)
+            var stateProperites = ResovleStateProperties(GetType());
+            foreach (var property in stateProperites)
             {
                 var state = (IState?)property.GetValue(this);
                 if (state != null)
                 {
                     _stateInstances.Add(state);
                     state.SubscribeBindingChanged(() => InvokeAsync(StateHasChanged));
+                }
+            }
+
+            var storeProperites = ResovleStoreProperties(GetType());
+            foreach (var property in storeProperites)
+            {
+                var store = (IState?)property.GetValue(this);
+                if (store != null)
+                {
+                    _storeDisposables.Add(store.SubscribeBindingChanged(() => InvokeAsync(StateHasChanged)));
                 }
             }
         }
@@ -90,6 +111,10 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
         foreach (var state in _stateInstances)
         {
             try { state.Dispose(); } catch { }
+        }
+        foreach(var dispose in _storeDisposables)
+        {
+            try { dispose.Dispose(); } catch { }
         }
     }
 
