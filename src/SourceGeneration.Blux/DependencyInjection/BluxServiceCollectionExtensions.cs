@@ -10,9 +10,9 @@ public static class BluxServiceCollectionExtensions
 {
     public static IServiceCollection AddBlux(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
+        services.AddStateInjection();
         services.AddActionDispatcher(serviceLifetime);
         services.AddScoped<NavigateActionHandler>();
-        StateRegister.Register(services);
         return services;
     }
 
