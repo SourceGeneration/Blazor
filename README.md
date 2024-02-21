@@ -26,7 +26,7 @@ services.AddBlux(ServiceLifetime.Singleton);
 services.AddBlux(ServiceLifetime.Scoped);
 ```
 
-## State Management
+## State
 
 Blux uses SourceGeneration.States for state management. view [document](https://github.com/SourceGeneration/States).
 
@@ -45,6 +45,13 @@ services.AddState<MyState>();
 ```
 
 **Component**
+
+Inherits BluxComponentBase, BluxComponentBase automatically invokes StateHasChanged when after state binding has changed.
+
+By default, which automatically invokes StateHasChanged after the component's event handlers are invoked.
+In scenarios where rendering is automatically handled through state management, triggering a rerender after an event handler is invoked is often unnecessary or undesirable.
+Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event handling.
+
 ```c#
 @inherits BluxComponentBase
 @inject IScopedState<MyState> State
@@ -55,6 +62,8 @@ services.AddState<MyState>();
 
 @code{
     private int currentCount;
+
+    protected override bool ShouldRenderOnEventHandled() => false;
 
     protected void OnStateBinding()
     {
@@ -67,6 +76,130 @@ services.AddState<MyState>();
         State.Update(x => x.Count++);
     }
 }
+```
+
+## Change Scope
+
+Consider the following scenario where a component binds to an `UndoList`, and the `Undo` object and `List` are rendered in the same component without using child components. When we modify the `Undo` property, we need to rerender the page. This can be achieved using `·`ChangeTrackingScope.Cascading`.
+
+You can specify the scope of the subscribed changes.
+
+- **ChangeTrackingScope.Root** `default value`  
+  The subscription only be triggered when there are changes in the properties of the object itself.
+- **ChangeTrackingScope.Cascading**  
+  The subscription will be triggered when there are changes in the properties of the object itself or in the properties of its property objects.
+- **ChangeTrackingScope.Always**  
+  The subscription will be triggered whenever the `Update` method is called, regardless of whether the value has changed or not.
+
+```c#
+@inherits BluxComponentBase
+@inject IScopedState<UndoState> State
+
+<ul>
+    @foreach(var undo in UndoList)
+    {
+        <li>
+            <h5>@undo.Title</h5>
+            <p>@undo.Done</p>
+            <button @onclick="@(() => UpdateTitle(undo.Id))">Update</button>
+        </li>
+    }
+</ul>
+
+@code{
+    private ChangeTrackingList<Undo> UndoList;
+
+    protected override bool ShouldRenderOnEventHandled() => false;
+
+    protected void OnStateBinding()
+    {
+        //ChangeTrackingScope.Cascading
+        State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Cascading);
+    }
+
+    private void UpdateTitle(int id)
+    {
+        State.Update(state => 
+        {
+            state.List.First(x => x.Id == id).Title = "title changed";
+        });
+    }
+}
+```
+
+At another scenario where we delegate the rendering of the Undo object to a separate child component called UndoComponent. When a property of a specific Undo object changes, we don't want to trigger the rendering of the list component. This can be achieved using ChangeTrackingScope.Root.
+
+```c#
+@inherits BluxComponentBase
+@inject IScopedState<UndoState> State
+
+<div>
+    @foreach(var undo in UndoList)
+    {
+        <UndoComponent Id="@undo.Id" />
+    }
+</div>
+
+<button @onclick="AddUndo">Add Undo</button>
+
+@code{
+    private ChangeTrackingList<Undo> UndoList;
+
+    protected override bool ShouldRenderOnEventHandled() => false;
+
+    protected void OnStateBinding()
+    {
+        //ChangeTrackingScope.Root
+        State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Root);
+    }
+
+    private void AddUndo()
+    {
+        State.Update(x => 
+        {
+            x.List.Add(new Undo());
+        });
+    }
+}
+```
+
+## Reactive(Rx)
+
+State implement `IObservable<T>`, so you can use Rx framework like System.Reactive,  
+- States does not have a dependency on System.Reactive.
+- Subscribe `IObservable` must manually invoke StateHasChanged
+
+```c#
+@using System.Reactive
+@inherits BluxComponentBase
+@inject IScopedState<UndoState> State
+
+<div>
+    @foreach(var undo in UndoList)
+    {
+        <UndoComponent Id="@undo.Id" />
+    }
+</div>
+
+<button @onclick="AddUndo">Add Undo</button>
+
+@code{
+    private IEnumerable<Undo> UndoList;
+
+    protected void OnStateBinding()
+    {
+        State
+            .Select(x => x.List)
+            .Where(x => x.Done)
+            .DistinctUntilChanged()
+            .Subscribe(x => 
+            {
+                UndoList = x;
+                InvokeAsync(StateHasChanged);
+            });
+    }
+}
+
 ```
 
 ## Action Dispatcher
@@ -104,6 +237,8 @@ public class DefaultActionHandler(State<MyState> state)
 
 @code{
     private int currentCount;
+
+    protected override bool ShouldRenderOnEventHandled() => false;
 
     protected void OnStateBinding()
     {
