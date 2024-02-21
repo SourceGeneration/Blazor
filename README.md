@@ -16,14 +16,8 @@ dotnet add package SourceGeneration.Blux --version 1.0.0-beta2.240221.1
 
 ## DependencyInjection
 
-**WebAssembly or Hybird**
 ```c#
-services.AddBlux(ServiceLifetime.Singleton);
-```
-
-**Server**
-```c#
-services.AddBlux(ServiceLifetime.Scoped);
+services.AddBlux();
 ```
 
 ## State
