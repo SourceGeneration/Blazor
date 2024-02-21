@@ -78,6 +78,11 @@ Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event 
 }
 ```
 
+> **Note** 
+Don't directly update `State` within the `Component`.
+The code provided here is just an example of State.
+Instead, you should dispatch actions and update State within the action handler.
+
 ## Change Scope
 
 Consider the following scenario where a component binds to an `UndoList`, and the `Undo` object and `List` are rendered in the same component without using child components. When we modify the `Undo` property, we need to rerender the page. This can be achieved using `·`ChangeTrackingScope.Cascading`.
@@ -199,7 +204,6 @@ State implement `IObservable<T>`, so you can use Rx framework like System.Reacti
             });
     }
 }
-
 ```
 
 ## Action Dispatcher
@@ -226,6 +230,11 @@ public class DefaultActionHandler(State<MyState> state)
 }
 ```
 
+> **Note** 
+Don't use `IScopedState` outside of the `Component`.
+`IScopedState` is a transient object that requires you to manually handle its Dispose. 
+Instead, you should use `State<T>` objects as replacements. `State<T>` based on your dependency injection configuration, can be singleton or scoped, and you don't need to worry about whether they need to be disposed.
+
 **Component**
 ```razor
 @inherits BluxComponentBase
@@ -242,8 +251,8 @@ public class DefaultActionHandler(State<MyState> state)
 
     protected void OnStateBinding()
     {
-        //Binding state.Count property to local field
-        State.Bind(x => x.Count, x => currentCount = x);
+        // Binding Count, When Count is greater than 10, push it to a local field
+        State.Bind(x => x.Count, x => x > 10 x => currentCount = x);
     }
 
     private void IncrementCount()
@@ -272,7 +281,7 @@ public class DefaultActionHandler(State<MyState> state)
 
 ## Comparison with Fluxor
 
-- Blux is based on Source Generator, it's faster and `AOTable`
-- Blux is not an implementation of Redux, it's simpler and easier to use.
+- Blux is based on `Source Generator`, it's faster and `AOTable`
+- Blux is not an implementation of `Redux`, it's simpler and easier to use.
+- Blux supports `ChangeScope`, it will be minimize calls to StateHasChanged as much as possible
 - Blux supports `Reactive(Rx)`, it's more flexible.
-- Blux supports ChangeScope, it will be minimize calls to StateHasChanged as much as possible
