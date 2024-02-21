@@ -164,8 +164,8 @@ At another scenario where we delegate the rendering of the Undo object to a sepa
 
 ## Reactive(Rx)
 
-State implement `IObservable<T>`, so you can use Rx framework like System.Reactive,  
-- States does not have a dependency on System.Reactive.
+State implement `IObservable<T>`, so you can use Rx framework like `System.Reactive`,  
+- States does not have a dependency on `System.Reactive`.
 - Subscribe `IObservable` must manually invoke StateHasChanged
 
 ```razor
