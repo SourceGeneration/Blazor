@@ -2,7 +2,7 @@
 
 namespace SourceGeneration.Blux.Sample.States;
 
-[State]
+[StateInject]
 public class MyState
 {
     public virtual int Count { get; set; }
