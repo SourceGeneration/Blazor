@@ -1,6 +1,9 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inherits BluxComponentBase
+@inject IState<MyState> State
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Blazor.Flux.Sample</a>
+        <a class="navbar-brand" href="">Blux: @Count</a>
     </div>
 </div>
 
@@ -29,3 +32,12 @@
     </nav>
 </div>
 
+@code {
+    private int Count;
+
+    protected override void OnStateBinding()
+    {
+        State.Bind(x => x.Count, x => Count = x);
+    }
+
+}
