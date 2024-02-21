@@ -52,7 +52,7 @@ By default, which automatically invokes StateHasChanged after the component's ev
 In scenarios where rendering is automatically handled through state management, triggering a rerender after an event handler is invoked is often unnecessary or undesirable.
 Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event handling.
 
-```c#
+```razor
 @inherits BluxComponentBase
 @inject IScopedState<MyState> State
 
@@ -91,7 +91,7 @@ You can specify the scope of the subscribed changes.
 - **ChangeTrackingScope.Always**  
   The subscription will be triggered whenever the `Update` method is called, regardless of whether the value has changed or not.
 
-```c#
+```razor
 @inherits BluxComponentBase
 @inject IScopedState<UndoState> State
 
@@ -129,7 +129,7 @@ You can specify the scope of the subscribed changes.
 
 At another scenario where we delegate the rendering of the Undo object to a separate child component called UndoComponent. When a property of a specific Undo object changes, we don't want to trigger the rendering of the list component. This can be achieved using ChangeTrackingScope.Root.
 
-```c#
+```razor
 @inherits BluxComponentBase
 @inject IScopedState<UndoState> State
 
@@ -169,7 +169,7 @@ State implement `IObservable<T>`, so you can use Rx framework like System.Reacti
 - States does not have a dependency on System.Reactive.
 - Subscribe `IObservable` must manually invoke StateHasChanged
 
-```c#
+```razor
 @using System.Reactive
 @inherits BluxComponentBase
 @inject IScopedState<UndoState> State
@@ -227,7 +227,7 @@ public class DefaultActionHandler(State<MyState> state)
 ```
 
 **Component**
-```c#
+```razor
 @inherits BluxComponentBase
 @inject IScopedState<MyState> State
 
@@ -256,7 +256,7 @@ public class DefaultActionHandler(State<MyState> state)
 ## Action Subscriber
 
 
-```c#
+```razor
 @inherits BluxComponentBase
 
 @code{
