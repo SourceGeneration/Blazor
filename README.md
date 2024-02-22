@@ -273,7 +273,7 @@ Instead, you should use `State<T>` objects as replacements. `State<T>` based on 
 }
 ```
 
-## Comparison with Fluxor
+## Features
 
 - Blux is based on `Source Generator`, it's faster and `AOTable`
 - Blux is not an implementation of `Redux`, it's simpler and easier to use.
