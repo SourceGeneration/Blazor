@@ -8,10 +8,10 @@ namespace SourceGeneration.Blux;
 
 public static class BluxServiceCollectionExtensions
 {
-    public static IServiceCollection AddBlux(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+    public static IServiceCollection AddBlux(this IServiceCollection services, ServiceLifetime dispatcherLifetime = ServiceLifetime.Scoped, ServiceLifetime subscriberLifetime = ServiceLifetime.Scoped)
     {
         services.AddStateInjection();
-        services.AddActionDispatcher(serviceLifetime);
+        services.AddActionDispatcher(dispatcherLifetime, subscriberLifetime);
         services.AddScoped<NavigateActionHandler>();
         return services;
     }
