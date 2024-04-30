@@ -164,8 +164,8 @@ At another scenario where we delegate the rendering of the Undo object to a sepa
 
 ## Reactive(Rx)
 
-State implement `IObservable<T>`, so you can use Rx framework like System.Reactive,  
-- States does not have a dependency on System.Reactive.
+State implement `IObservable<T>`, so you can use Rx framework like `System.Reactive`,  
+- States does not have a dependency on `System.Reactive`.
 - Subscribe `IObservable` must manually invoke StateHasChanged
 
 ```razor
@@ -273,7 +273,7 @@ Instead, you should use `State<T>` objects as replacements. `State<T>` based on 
 }
 ```
 
-## Comparison with Fluxor
+## Features
 
 - Blux is based on `Source Generator`, it's faster and `AOTable`
 - Blux is not an implementation of `Redux`, it's simpler and easier to use.
