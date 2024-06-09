@@ -79,8 +79,6 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
         {
             _isInitialized = true;
 
-            OnStateBinding();
-
             var stateProperites = ResovleStateProperties(GetType());
             foreach (var property in stateProperites)
             {
@@ -104,15 +102,13 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
         }
     }
 
-    protected virtual void OnStateBinding() { }
-
     protected virtual void DisposeState()
     {
         foreach (var state in _stateInstances)
         {
             try { state.Dispose(); } catch { }
         }
-        foreach(var dispose in _storeDisposables)
+        foreach (var dispose in _storeDisposables)
         {
             try { dispose.Dispose(); } catch { }
         }
