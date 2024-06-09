@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SourceGeneration.Blux" Version="1.0.0-beta2.240505.1" />
+    <PackageReference Include="SourceGeneration.Blux" Version="1.0.0-beta2.240609.1" />
   </ItemGroup>
 
 </Project>
