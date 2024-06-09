@@ -35,7 +35,7 @@
 @code {
     private int Count;
 
-    protected override void OnStateBinding()
+    protected override void OnInitialized()
     {
         State.Bind(x => x.Count, x => Count = x);
     }
