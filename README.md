@@ -7,11 +7,11 @@ Blux is a Blazor **flux** framework base on [`States`](https://github.com/Source
 ## Installing
 
 ```powershell
-Install-Package SourceGeneration.Blux -Version 1.0.0-beta2.240221.1
+Install-Package SourceGeneration.Blux -Version 1.0.0-beta2.240609.1
 ```
 
 ```powershell
-dotnet add package SourceGeneration.Blux --version 1.0.0-beta2.240221.1
+dotnet add package SourceGeneration.Blux --version 1.0.0-beta2.240609.1
 ```
 
 ## DependencyInjection
@@ -59,7 +59,7 @@ Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event 
 
     protected override bool ShouldRenderOnEventHandled() => false;
 
-    protected void OnStateBinding()
+    protected override void OnInitialized()
     {
         //Binding state.Count property to local field
         State.Bind(x => x.Count, x => currentCount = x);
@@ -110,7 +110,7 @@ You can specify the scope of the subscribed changes.
 
     protected override bool ShouldRenderOnEventHandled() => false;
 
-    protected void OnStateBinding()
+    protected override OnInitialized()
     {
         //ChangeTrackingScope.Cascading
         State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Cascading);
@@ -146,7 +146,7 @@ At another scenario where we delegate the rendering of the Undo object to a sepa
 
     protected override bool ShouldRenderOnEventHandled() => false;
 
-    protected void OnStateBinding()
+    protected override OnInitialized()
     {
         //ChangeTrackingScope.Root
         State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Root);
@@ -185,7 +185,7 @@ State implement `IObservable<T>`, so you can use Rx framework like `System.React
 @code{
     private IEnumerable<Undo> UndoList;
 
-    protected void OnStateBinding()
+    protected override OnInitialized()
     {
         State
             .Select(x => x.List)
@@ -243,7 +243,7 @@ Instead, you should use `State<T>` objects as replacements. `State<T>` based on 
 
     protected override bool ShouldRenderOnEventHandled() => false;
 
-    protected void OnStateBinding()
+    protected override OnInitialized()
     {
         // Binding Count, When Count is greater than 10, push it to a local field
         State.Bind(x => x.Count, x => x > 10 x => currentCount = x);
