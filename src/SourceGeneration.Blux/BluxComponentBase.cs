@@ -47,12 +47,41 @@ public abstract class BluxComponentBase : ComponentBase, IHandleEvent, IAsyncDis
     protected void DispatchAction<TAction>(CancellationToken cancellationToken = default) where TAction : new() => Dispatcher.Dispatch(new TAction(), cancellationToken);
     protected Task DispatchActionAsync<TAction>(CancellationToken cancellationToken = default) where TAction : new() => Dispatcher.DispatchAsync(new TAction(), cancellationToken);
 
-    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action<TAction, Exception?> callback) where TAction : notnull => Subscriber.Subscribe(this, status, callback);
-    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action<TAction> callback) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) => callback(action));
-    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action callback) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) => callback());
-    protected IDisposable SubscribeAction<TAction>(Action<TAction, Exception> callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.RanToCompletion, callback!);
-    protected IDisposable SubscribeAction<TAction>(Action<TAction> callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, (TAction action, Exception? ex) => callback(action));
-    protected IDisposable SubscribeAction<TAction>(Action callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, (TAction action, Exception? ex) => callback());
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action<TAction, Exception?> callback) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) =>
+    {
+        callback(action, ex);
+        InvokeAsync(StateHasChanged);
+    });
+
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action<TAction> callback) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) =>
+    {
+        callback(action);
+        InvokeAsync(StateHasChanged);
+    });
+
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action callback) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) =>
+    {
+        callback();
+        InvokeAsync(StateHasChanged);
+    });
+
+    protected IDisposable SubscribeAction<TAction>(Action<TAction, Exception?> callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.RanToCompletion, (TAction action, Exception? ex) =>
+    {
+        callback(action, ex);
+        InvokeAsync(StateHasChanged);
+    });
+
+    protected IDisposable SubscribeAction<TAction>(Action<TAction> callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, (TAction action, Exception? ex) =>
+    {
+        callback(action);
+        InvokeAsync(StateHasChanged);
+    });
+
+    protected IDisposable SubscribeAction<TAction>(Action callback) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, (TAction action, Exception? ex) =>
+    {
+        callback();
+        InvokeAsync(StateHasChanged);
+    });
 
     public async ValueTask DisposeAsync()
     {
