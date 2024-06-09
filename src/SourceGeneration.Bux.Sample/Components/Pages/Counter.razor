@@ -16,7 +16,7 @@
 
     protected override bool ShouldRenderOnEventHandled() => false;
 
-    protected override void OnStateBinding()
+    protected override void OnInitialized()
     {
         State.Bind(x => x.Count, x => currentCount = x);
     }
