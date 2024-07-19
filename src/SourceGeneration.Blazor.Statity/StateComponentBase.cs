@@ -27,11 +27,6 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
         return Watch(state, selector, null, subscriber, scope);
     }
 
-    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Func<TValue, bool>? predicate, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : State<TState>
-    {
-        return Watch(state, selector, predicate, null, scope);
-    }
-
     protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Func<TValue, bool>? predicate, Action<TValue>? subscriber, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : State<TState>
     {
         if (!_trackers.TryGetValue(state, out var tracker))
