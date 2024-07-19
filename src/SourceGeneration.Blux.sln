@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGeneration.Blux", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGeneration.Blux.Sample", "SourceGeneration.Bux.Sample\SourceGeneration.Blux.Sample.csproj", "{FA90F4D1-DDE1-4468-9BAA-0E7445A9F41B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGeneration.Blazor.Statity", "SourceGeneration.Blazor.Statity\SourceGeneration.Blazor.Statity.csproj", "{0CC6D2FC-E00E-4FCE-96ED-64131CDB8F4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FA90F4D1-DDE1-4468-9BAA-0E7445A9F41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA90F4D1-DDE1-4468-9BAA-0E7445A9F41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA90F4D1-DDE1-4468-9BAA-0E7445A9F41B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CC6D2FC-E00E-4FCE-96ED-64131CDB8F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CC6D2FC-E00E-4FCE-96ED-64131CDB8F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CC6D2FC-E00E-4FCE-96ED-64131CDB8F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CC6D2FC-E00E-4FCE-96ED-64131CDB8F4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

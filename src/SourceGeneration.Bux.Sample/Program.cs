@@ -1,4 +1,6 @@
-using SourceGeneration.Blux;
+using SourceGeneration.Blazor;
+using SourceGeneration.Blux.Sample.States;
+using SourceGeneration.ChangeTracking;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddBlux();
+
+builder.Services.AddScoped(sp => ChangeTrackingProxyFactory.Create(new MyState()));
+builder.Services.AddBlazorStatily();
 
 var app = builder.Build();
 

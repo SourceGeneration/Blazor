@@ -1,5 +1,5 @@
-﻿@inherits BluxComponentBase
-@inject IScopedState<MyState> State
+﻿@inherits StateComponentBase
+@inject MyState State
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -22,6 +22,11 @@
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="list">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> List
+            </NavLink>
+        </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="navigate">
@@ -37,7 +42,7 @@
 
     protected override void OnInitialized()
     {
-        State.Bind(x => x.Count, x => Count = x);
+        Watch(State, x => x.Count, x => Count = x);
     }
 
 }

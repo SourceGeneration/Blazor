@@ -1,6 +1,6 @@
 ﻿@page "/counter"
-@inherits BluxComponentBase
-@inject IScopedState<MyState> State
+@inherits StateComponentBase
+@inject MyState State
 
 <PageTitle>Counter</PageTitle>
 
@@ -18,7 +18,7 @@
 
     protected override void OnInitialized()
     {
-        State.Bind(x => x.Count, x => currentCount = x);
+        Watch(State, x => x.Count, x => currentCount = x);
     }
 
     private void IncrementCount()
