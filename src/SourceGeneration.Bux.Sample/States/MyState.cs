@@ -3,15 +3,20 @@
 namespace SourceGeneration.Blux.Sample.States;
 
 [ChangeTracking]
-public class MyState : State<MyState>
+public partial class MyState : State<MyState>
 {
-    public virtual int Count { get; set; }
+    public MyState()
+    {
+        List = [];
+    }
 
-    public virtual ChangeTrackingList<ViewItem> List { get; set; } = [];
+    public partial int Count { get; set; }
+
+    public partial ChangeTrackingList<ViewItem> List { get; set; }
 }
 
 [ChangeTracking]
-public class ViewItem
+public partial class ViewItem
 {
-    public virtual int Value { get; set; }
+    public partial int Value { get; set; }
 }

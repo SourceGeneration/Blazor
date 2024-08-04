@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 
-builder.Services.AddScoped(sp => ChangeTrackingProxyFactory.Create(new MyState()));
+builder.Services.AddScoped<MyState>();
 builder.Services.AddBlazorStatily();
 
 var app = builder.Build();
