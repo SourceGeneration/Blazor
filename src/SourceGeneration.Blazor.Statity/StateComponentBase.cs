@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SourceGeneration.ActionDispatcher;
 using SourceGeneration.ChangeTracking;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SourceGeneration.Blazor;
 
@@ -17,17 +16,17 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
     protected void Navigate(string uri, bool? forceLoad = null, bool? replace = null) => Dispatcher.Navigate(uri, forceLoad, replace);
     protected void Navigate(string uri, Dictionary<string, object?>? queryParametes, bool? forceLoad = null, bool? replace = null) => Dispatcher.Navigate(uri, queryParametes, forceLoad, replace);
 
-    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : State<TState>
+    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : class, IState<TState>
     {
         return Watch(state, selector, null, null, scope);
     }
 
-    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Action<TValue> subscriber, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : State<TState>
+    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Action<TValue> subscriber, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : class, IState<TState>
     {
         return Watch(state, selector, null, subscriber, scope);
     }
 
-    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Func<TValue, bool>? predicate, Action<TValue>? subscriber, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : State<TState>
+    protected IDisposable Watch<TState, TValue>(TState state, Func<TState, TValue> selector, Func<TValue, bool>? predicate, Action<TValue>? subscriber, ChangeTrackingScope scope = ChangeTrackingScope.Root) where TState : class, IState<TState>
     {
         if (!_trackers.TryGetValue(state, out var tracker))
         {
