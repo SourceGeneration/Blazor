@@ -1,56 +1,65 @@
-# Blux
+# Blazor Statity
 
-[![NuGet](https://img.shields.io/nuget/vpre/SourceGeneration.Blux.svg)](https://www.nuget.org/packages/SourceGeneration.Blux)
+[![NuGet](https://img.shields.io/nuget/vpre/SourceGeneration.Blazor.Statity.svg)](https://www.nuget.org/packages/SourceGeneration.Blazor.Statity)
 
-Blux is a Blazor **flux** framework base on [`States`](https://github.com/SourceGeneration/States) and [`ActionDispather`](https://github.com/SourceGeneration/ActionDispatcher), and it supports AOT compilation
+Blazor **flux** framework base on [`ChangeTracking`](https://github.com/SourceGeneration/ChangeTracking) and [`ActionDispather`](https://github.com/SourceGeneration/ActionDispatcher), and it supports `AOT` compilation
 
 ## Installing
 
-```powershell
-Install-Package SourceGeneration.Blux -Version 1.0.0-beta2.240609.1
+This library uses C# preview features `partial property`, Before using this library, please ensure the following prerequisites are met:
+- Visual Studio is version 17.11 preview 3 or higher.
+- To enable C# language preview in your project, add the following to your .csproj file
+```c#
+<PropertyGroup>  
+  <LangVersion>preview</LangVersion>  
+</PropertyGroup>  
 ```
 
 ```powershell
-dotnet add package SourceGeneration.Blux --version 1.0.0-beta2.240609.1
+Install-Package SourceGeneration.Blazor.Statity -Version 1.0.0-beta2.240822.1
+```
+
+```powershell
+dotnet add package SourceGeneration.Blazor.Statity --version 1.0.0-beta2.240822.1
 ```
 
 ## DependencyInjection
 
 ```c#
-services.AddBlux();
+services.AddBlazorStatily();
 ```
 
-## State
+## State Management
 
-Blux uses SourceGeneration.States for state management. view [document](https://github.com/SourceGeneration/States).
+This library uses `SourceGeneration.ChangeTracking` for state management. view [document](https://github.com/SourceGeneration/ChangeTracking).
 
 **Defining state**
 ```c#
-[StateInject]
-public class MyState
+[ChangeTacking]
+public partial class MyState : State<MyState>
 {
-    public int Count { get; set; }
+    public partial int Count { get; set; }
 }
 ```
 Or using services inject
 
 ```c#
-services.AddState<MyState>();
+services.AddScoped<MyState>();
 ```
 
 **Component**
 
-Inherits BluxComponentBase, BluxComponentBase automatically invokes StateHasChanged when after state binding has changed.
+Inherits StateComponentBase, StateComponentBase automatically invokes StateHasChanged when after state binding has changed.
 
 By default, which automatically invokes StateHasChanged after the component's event handlers are invoked.
 In scenarios where rendering is automatically handled through state management, triggering a rerender after an event handler is invoked is often unnecessary or undesirable.
 Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event handling.
 
 ```razor
-@inherits BluxComponentBase
-@inject IScopedState<MyState> State
+@inherits StateComponentBase
+@inject MyState State
 
-<p>Current count: @currentCount</p>
+<p>Current count: @State.Count</p>
 
 <button @onclick="IncrementCount">Click me</button>
 
@@ -61,13 +70,14 @@ Override `ShouldRenderOnEventHandled` to control the behavior of Blazor's event 
 
     protected override void OnInitialized()
     {
-        //Binding state.Count property to local field
-        State.Bind(x => x.Count, x => currentCount = x);
+        //Subscribe state.Count property
+        Watch(State, x => x.Count);
     }
 
     private void IncrementCount()
     {
-        State.Update(x => x.Count++);
+        State.Count++;
+        State.AcceptChanges();
     }
 }
 ```
@@ -91,8 +101,8 @@ You can specify the scope of the subscribed changes.
   The subscription will be triggered whenever the `Update` method is called, regardless of whether the value has changed or not.
 
 ```razor
-@inherits BluxComponentBase
-@inject IScopedState<UndoState> State
+@inherits StateComponentBase
+@inject UndoState State
 
 <ul>
     @foreach(var undo in UndoList)
@@ -113,15 +123,13 @@ You can specify the scope of the subscribed changes.
     protected override OnInitialized()
     {
         //ChangeTrackingScope.Cascading
-        State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Cascading);
+        Watch(State, x => x.List, x => UndoList = x, ChangeTrackingScope.Cascading);
     }
 
     private void UpdateTitle(int id)
     {
-        State.Update(state => 
-        {
-            state.List.First(x => x.Id == id).Title = "title changed";
-        });
+        State.List.First(x => x.Id == id).Title = "title changed";
+        State.AccpetChanges();
     }
 }
 ```
@@ -129,8 +137,8 @@ You can specify the scope of the subscribed changes.
 At another scenario where we delegate the rendering of the Undo object to a separate child component called UndoComponent. When a property of a specific Undo object changes, we don't want to trigger the rendering of the list component. This can be achieved using ChangeTrackingScope.Root.
 
 ```razor
-@inherits BluxComponentBase
-@inject IScopedState<UndoState> State
+@inherits StateComponentBase
+@inject UndoState State
 
 <div>
     @foreach(var undo in UndoList)
@@ -149,60 +157,20 @@ At another scenario where we delegate the rendering of the Undo object to a sepa
     protected override OnInitialized()
     {
         //ChangeTrackingScope.Root
-        State.Bind(x => x.List, x => UndoList = x, ChangeTrackingScope.Root);
+        Watch(State, x => x.List, x => UndoList = x, ChangeTrackingScope.Root);
     }
 
     private void AddUndo()
     {
-        State.Update(x => 
-        {
-            x.List.Add(new Undo());
-        });
-    }
-}
-```
-
-## Reactive(Rx)
-
-State implement `IObservable<T>`, so you can use Rx framework like `System.Reactive`,  
-- States does not have a dependency on `System.Reactive`.
-- Subscribe `IObservable` must manually invoke StateHasChanged
-
-```razor
-@using System.Reactive
-@inherits BluxComponentBase
-@inject IScopedState<UndoState> State
-
-<div>
-    @foreach(var undo in UndoList)
-    {
-        <UndoComponent Id="@undo.Id" />
-    }
-</div>
-
-<button @onclick="AddUndo">Add Undo</button>
-
-@code{
-    private IEnumerable<Undo> UndoList;
-
-    protected override OnInitialized()
-    {
-        State
-            .Select(x => x.List)
-            .Where(x => x.Done)
-            .DistinctUntilChanged()
-            .Subscribe(x => 
-            {
-                UndoList = x;
-                InvokeAsync(StateHasChanged);
-            });
+        State.List.Add(new Undo());
+        State.AcceptChanges();
     }
 }
 ```
 
 ## Action Dispatcher
 
-Blux uses SourceGeneration.ActionDispatcher for event dispatch & subscribe. view [document](https://github.com/SourceGeneration/ActionDispatcher).
+This library uses SourceGeneration.ActionDispatcher for event dispatch & subscribe. view [document](https://github.com/SourceGeneration/ActionDispatcher).
 
 **Defining action**
 ```c#
@@ -214,44 +182,13 @@ public class Increment
 
 **Defining action handler**
 ```c#
-public class DefaultActionHandler(State<MyState> state)
+public class DefaultActionHandler(MyState state)
 {
     [ActionHandler]
     public void Handle(Increment action)
     {
-        state.Update(x => x.Count++);
-    }
-}
-```
-
-> **Note** 
-Don't use `IScopedState` outside of the `Component`.
-`IScopedState` is a transient object that requires you to manually handle its Dispose. 
-Instead, you should use `State<T>` objects as replacements. `State<T>` based on your dependency injection configuration, can be singleton or scoped, and you don't need to worry about whether they need to be disposed.
-
-**Component**
-```razor
-@inherits BluxComponentBase
-@inject IScopedState<MyState> State
-
-<p>Current count: @currentCount</p>
-
-<button @onclick="IncrementCount">Click me</button>
-
-@code{
-    private int currentCount;
-
-    protected override bool ShouldRenderOnEventHandled() => false;
-
-    protected override OnInitialized()
-    {
-        // Binding Count, When Count is greater than 10, push it to a local field
-        State.Bind(x => x.Count, x => x > 10 x => currentCount = x);
-    }
-
-    private void IncrementCount()
-    {
-        DispatchAction(new Increment());
+        state.Count++;
+        state.AcceptChanges();
     }
 }
 ```
@@ -260,7 +197,7 @@ Instead, you should use `State<T>` objects as replacements. `State<T>` based on 
 
 
 ```razor
-@inherits BluxComponentBase
+@inherits StateComponentBase
 
 @code{
     protected void OnInitialized()
@@ -275,7 +212,6 @@ Instead, you should use `State<T>` objects as replacements. `State<T>` based on 
 
 ## Features
 
-- Blux is based on `Source Generator`, it's faster and `AOTable`
-- Blux is not an implementation of `Redux`, it's simpler and easier to use.
-- Blux supports `ChangeScope`, it will be minimize calls to StateHasChanged as much as possible
-- Blux supports `Reactive(Rx)`, it's more flexible.
+- Based on `Source Generator`, it's faster and `AOTable`
+- Not an implementation of `Redux`, it's simpler and easier to use.
+- Supports `ChangeScope`, it will be minimize calls to StateHasChanged as much as possible
