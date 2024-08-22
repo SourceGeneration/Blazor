@@ -1,0 +1,14 @@
+﻿@inherits StateComponentBase
+@page "/navigate"
+
+<h3>Navigate</h3>
+
+<button class="btn btn-primary" @onclick="NavigateToHome">Navigate To Home</button>
+
+@code {
+
+    private void NavigateToHome()
+    {
+        Navigate("/");
+    }
+}

@@ -1,0 +1,46 @@
+﻿@page "/list"
+@inherits StateComponentBase
+@inject MyState State
+
+<h3>ListView</h3>
+<button class="btn btn-primary" @onclick="Add">Add</button>
+
+<ul>
+    @foreach (var item in State.List)
+    {
+        <li>@item.Value</li>
+    }
+</ul>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Watch(State, x => x.List, ChangeTracking.ChangeTrackingScope.Cascading);
+        Task.Run(async () =>
+        {
+            for(int i = 0; i < 10; i++)
+            {
+                await Task.Delay(1000);
+                State.List.Add(new ViewItem
+                    {
+                        Value = i
+                    });
+                State.AcceptChanges();
+            }
+        });
+
+    }
+
+    private void Add()
+    {
+        Task.Run(async () =>
+        {
+            await Task.Delay(1000);
+            State.List.Add(new ViewItem
+                {
+                    Value = Random.Shared.Next(0, 1000)
+                });
+            State.AcceptChanges();
+        });
+    }
+}
