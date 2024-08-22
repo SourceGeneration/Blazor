@@ -41,9 +41,13 @@ public partial class MyState : State<MyState>
     public partial int Count { get; set; }
 }
 ```
-Or using services inject
+using services inject
 
 ```c#
+//WebAssembly or Hybird
+services.AddSingleton<MyState>();
+
+//Server
 services.AddScoped<MyState>();
 ```
 
