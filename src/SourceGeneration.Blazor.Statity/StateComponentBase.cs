@@ -10,7 +10,7 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
 
     private bool _isDisposed;
 
-    [Inject] private IActionDispatcher Dispatcher { get; set; } = null!;
+    [Inject] public IActionDispatcher Dispatcher { get; private set; } = null!;
     [Inject] private IActionSubscriber Subscriber { get; set; } = null!;
 
     protected void Navigate(string uri, bool? forceLoad = null, bool? replace = null) => Dispatcher.Navigate(uri, forceLoad, replace);
