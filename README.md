@@ -11,16 +11,16 @@ This library uses C# preview features `partial property`, Before using this libr
 - To enable C# language preview in your project, add the following to your .csproj file
 ```c#
 <PropertyGroup>  
-  <LangVersion>preview</LangVersion>  
+  <LangVersion>13</LangVersion>  
 </PropertyGroup>  
 ```
 
 ```powershell
-Install-Package SourceGeneration.Blazor.Statity -Version 1.0.0-beta2.240822.1
+Install-Package SourceGeneration.Blazor.Statity -Version 1.0.0-beta3.241113.1
 ```
 
 ```powershell
-dotnet add package SourceGeneration.Blazor.Statity --version 1.0.0-beta2.240822.1
+dotnet add package SourceGeneration.Blazor.Statity --version 1.0.0-beta3.241113.1
 ```
 
 ## DependencyInjection
