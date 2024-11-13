@@ -33,8 +33,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SourceGeneration.ActionDispatcher" Version="1.0.0-beta1.240430.1" />
-		<PackageReference Include="SourceGeneration.ChangeTracking" Version="1.0.0-beta3.241108.1" />
+		<PackageReference Include="SourceGeneration.ActionDispatcher" Version="1.0.0-beta2.241113.1" />
+		<PackageReference Include="SourceGeneration.ChangeTracking" Version="1.0.0-beta3.241113.1" />
 	</ItemGroup>
 
 </Project>
