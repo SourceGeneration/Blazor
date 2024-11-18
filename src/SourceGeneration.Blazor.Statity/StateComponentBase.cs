@@ -42,12 +42,30 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
     protected void DispatchAction<TAction>(CancellationToken cancellationToken = default) where TAction : new() => Dispatcher.Dispatch(new TAction(), cancellationToken);
     protected Task DispatchActionAsync<TAction>(CancellationToken cancellationToken = default) where TAction : new() => Dispatcher.DispatchAsync(new TAction(), cancellationToken);
 
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Func<TAction, Exception?, Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, status, async (TAction action, Exception? ex) =>
+    {
+        await callback(action, ex);
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    });
+
     protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action<TAction, Exception?> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) =>
     {
         callback(action, ex);
         if (autoChangeState)
         {
             InvokeAsync(StateHasChanged);
+        }
+    });
+
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Func<TAction, Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, status, async (TAction action, Exception? ex) =>
+    {
+        await callback(action);
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
         }
     });
 
@@ -60,6 +78,15 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
         }
     });
 
+    protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Func<Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, status, async (TAction _, Exception? ex) =>
+    {
+        await callback();
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    });
+
     protected IDisposable SubscribeAction<TAction>(ActionDispatchStatus status, Action callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, status, (TAction action, Exception? ex) =>
     {
         callback();
@@ -68,6 +95,16 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
             InvokeAsync(StateHasChanged);
         }
     });
+
+    protected IDisposable SubscribeAction<TAction>(Func<TAction, Exception?, Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.RanToCompletion, async (TAction action, Exception? ex) =>
+    {
+        await callback(action, ex);
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    });
+
 
     protected IDisposable SubscribeAction<TAction>(Action<TAction, Exception?> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.RanToCompletion, (TAction action, Exception? ex) =>
     {
@@ -78,12 +115,30 @@ public abstract class StateComponentBase : ComponentBase, IHandleEvent, IAsyncDi
         }
     });
 
+    protected IDisposable SubscribeAction<TAction>(Func<TAction,Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, async (TAction action, Exception? ex) =>
+    {
+        await callback(action);
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    });
+
     protected IDisposable SubscribeAction<TAction>(Action<TAction> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, (TAction action, Exception? ex) =>
     {
         callback(action);
         if (autoChangeState)
         {
             InvokeAsync(StateHasChanged);
+        }
+    });
+
+    protected IDisposable SubscribeAction<TAction>(Func<Task> callback, bool autoChangeState = true) where TAction : notnull => Subscriber.Subscribe(this, ActionDispatchStatus.Successed, async (TAction _, Exception? ex) =>
+    {
+        await callback();
+        if (autoChangeState)
+        {
+            await InvokeAsync(StateHasChanged);
         }
     });
 
