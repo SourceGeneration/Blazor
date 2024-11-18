@@ -22,7 +22,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<SourceGeneration.Blux.Sample.Components.App>()
+app.MapRazorComponents<SourceGeneration.Blazor.Sample.Components.App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
