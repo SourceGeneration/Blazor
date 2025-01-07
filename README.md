@@ -1,4 +1,4 @@
-# Blazor Statity
+# Blazor State
 
 [![NuGet](https://img.shields.io/nuget/vpre/SourceGeneration.Blazor.Statity.svg)](https://www.nuget.org/packages/SourceGeneration.Blazor.Statity)
 
@@ -11,22 +11,22 @@ This library uses C# preview features `partial property`, Before using this libr
 - To enable C# language preview in your project, add the following to your .csproj file
 ```c#
 <PropertyGroup>  
-  <LangVersion>13</LangVersion>  
+  <LangVersion>preview</LangVersion>  
 </PropertyGroup>  
 ```
 
 ```powershell
-Install-Package SourceGeneration.Blazor.Statity -Version 1.0.0-beta3.241113.1
+Install-Package SourceGeneration.Blazor.Statity -Version 1.0.0-beta4.250107.1
 ```
 
 ```powershell
-dotnet add package SourceGeneration.Blazor.Statity --version 1.0.0-beta3.241113.1
+dotnet add package SourceGeneration.Blazor.Statity --version 1.0.0-beta4.250107.1
 ```
 
 ## DependencyInjection
 
 ```c#
-services.AddBlazorStatily();
+services.AddBlazorState();
 ```
 
 ## State Management
