@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/vpre/SourceGeneration.Blazor.Statity.svg)](https://www.nuget.org/packages/SourceGeneration.Blazor.Statity)
 
-Blazor **flux** framework base on [`ChangeTracking`](https://github.com/SourceGeneration/ChangeTracking) and [`ActionDispather`](https://github.com/SourceGeneration/ActionDispatcher), and it supports `AOT` compilation
+Blazor **state** and **action** framework base on [`ChangeTracking`](https://github.com/SourceGeneration/ChangeTracking) and [`ActionDispather`](https://github.com/SourceGeneration/ActionDispatcher), and it supports `AOT` compilation
 
 ## Installing
 
