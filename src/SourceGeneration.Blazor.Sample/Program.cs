@@ -7,9 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-
 builder.Services.AddScoped<MyState>();
-builder.Services.AddBlazorStatily();
+builder.Services.AddBlazorState();
 
 var app = builder.Build();
 

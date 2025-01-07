@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-	  <LangVersion>preview</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>13</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SourceGeneration.Blazor.Statity\SourceGeneration.Blazor.Statity.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\SourceGeneration.Blazor.State\SourceGeneration.Blazor.State.csproj" />
+	</ItemGroup>
 
 </Project>
