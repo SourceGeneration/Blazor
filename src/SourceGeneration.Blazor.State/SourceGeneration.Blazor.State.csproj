@@ -9,9 +9,9 @@
 
 		<Authors>SourceGeneration</Authors>
 		<Description>Blazor state management and action disapatch/subscribe extensions</Description>
-		<RepositoryUrl>https://github.com/SourceGeneration/Blux</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SourceGeneration/Blazor.State</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/SourceGeneration/Blux</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/SourceGeneration/Blazor.State</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>./../../../nupkg</PackageOutputPath>
 		<PackageIcon>sg.png</PackageIcon>
